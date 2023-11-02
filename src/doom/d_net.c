@@ -35,6 +35,9 @@
 #include "deh_main.h"
 
 #include "d_loop.h"
+#include "net_defs.h"
+
+extern net_waitdata_t net_client_wait_data;
 
 ticcmd_t *netcmds;
 
@@ -60,7 +63,7 @@ static void PlayerQuitGame(player_t *player)
 
     // TODO: check if it is sensible to do this:
 
-    if (demorecording) 
+    if (demorecording)
     {
         G_CheckDemoStatus ();
     }
@@ -173,7 +176,7 @@ static void InitConnectData(net_connect_data_t *connect_data)
         connect_data->drone = true;
     }
 
-    //! 
+    //!
     // @category net
     //
     // Run as the right screen in three screen mode.
@@ -239,6 +242,20 @@ void D_ConnectNetGame(void)
     }
 }
 
+
+int ConsolePlayerFromName(char* playername)
+{
+    for (size_t i = 0; i < NET_MAXPLAYERS; ++i)
+    {
+        if (0==strncmp(playername, net_client_wait_data.player_names[i], MAXPLAYERNAME))
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+
+
 //
 // D_CheckNetGame
 // Works out player numbers among the net participants
@@ -257,6 +274,43 @@ void D_CheckNetGame (void)
     SaveGameSettings(&settings);
     D_StartNetGame(&settings, NULL);
     LoadGameSettings(&settings);
+
+
+    // Set sudden death
+    if (M_CheckParm("-suddendeath") > 0)
+    {
+        suddendeath = true;
+    }
+
+    if (M_CheckParm("-drone") > 0)
+    {
+        // Check if playeridx specified
+        int p;
+        p = M_CheckParmWithArgs("-playeridx", 1);
+        if (p > 0)
+        {
+            consoleplayer = atoi(myargv[p+1]);
+        }
+        // Check if specified name of player
+        int playerparm;
+        playerparm = M_CheckParmWithArgs("-player", 1);
+        if (playerparm > 0)
+        {
+            char* playername;
+            playername = myargv[playerparm+1];
+            int playeridx;
+            playeridx = ConsolePlayerFromName(playername);
+            if (0 > playeridx)
+            {
+                printf("Unable to find connected player with name %s", playername);
+            }
+            else
+            {
+                printf("Observer set to observe player: %s", playername);
+                consoleplayer = playeridx;
+            }
+        }
+    }
 
     DEH_printf("startskill %i  deathmatch: %i  startmap: %i  startepisode: %i\n",
                startskill, deathmatch, startmap, startepisode);
