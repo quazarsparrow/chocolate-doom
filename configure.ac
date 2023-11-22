@@ -1,4 +1,4 @@
-AC_INIT(Chocolate Doom, 3.0.0,
+AC_INIT(Chocolate Doom, 3.0.1-modified,
         chocolate-doom-dev-list@chocolate-doom.org, chocolate-doom)
 
 PACKAGE_SHORTNAME=${PACKAGE_NAME% Doom}
@@ -22,7 +22,7 @@ AC_CHECK_PROG(HAVE_PYTHON, python3, true, false)
 
 OPT_LEVEL=2
 
-# If this is gcc, we have some options we'd like to turn on.  Turn on 
+# If this is gcc, we have some options we'd like to turn on.  Turn on
 # optimisation and debugging symbols.
 
 if test "$GCC" = "yes"

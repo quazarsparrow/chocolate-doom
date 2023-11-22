@@ -1181,7 +1181,9 @@ static void D_Endoom(void)
 
     endoom = W_CacheLumpName(DEH_String("ENDOOM"), PU_STATIC);
 
-    I_Endoom(endoom);
+    // Disable enddoom screen as to not interfere and create windows stuck in background
+    // during observer mode etc.
+    // I_Endoom(endoom);
 }
 
 boolean IsFrenchIWAD(void)

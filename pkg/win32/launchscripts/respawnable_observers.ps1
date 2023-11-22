@@ -42,10 +42,10 @@ if ( -not $Server )
 
 $playeridx = 0;
 $playername = 'Player1';
-$obs1 = Start-Process -PassThru -NoNewWindow -FilePath ".\chocolate-doom.exe" -ArgumentList "-width 640 -height 480 -nomonsters -nograbmouse -nomouse -connect `"$Server`" -port $Port -drone -player $playername -playeridx $playeridx -suddendeath -iwad `"$iwad`"";
+$obs1 = Start-Process -PassThru -NoNewWindow -FilePath ".\chocolate-doom.exe" -ArgumentList "-width 640 -height 480 -nomonsters -nograbmouse -nomouse -connect `"$Server`" -port $Port -drone -player $playername -playeridx $playeridx -iwad `"$iwad`"";
 Write-Host -ForegroundColor Green "Observer 1 ($playername) started with PID: $($obs1.Id)";
 
 $playeridx = 1;
 $playername = 'Player2';
-$obs2 = Start-Process -PassThru -NoNewWindow -FilePath ".\chocolate-doom.exe" -ArgumentList "-width 640 -height 480 -nomonsters -nograbmouse -nomouse -connect `"$Server`" -port $Port -drone -player $playername -playeridx $playeridx -suddendeath -iwad `"$iwad`"";
+$obs2 = Start-Process -PassThru -NoNewWindow -FilePath ".\chocolate-doom.exe" -ArgumentList "-width 640 -height 480 -nomonsters -nograbmouse -nomouse -connect `"$Server`" -port $Port -drone -player $playername -playeridx $playeridx -iwad `"$iwad`"";
 Write-Host -ForegroundColor Green "Observer 2 ($playername) started with PID: $($obs2.Id)";
